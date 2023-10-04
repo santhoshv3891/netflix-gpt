@@ -1,9 +1,14 @@
 import React, { useRef, useState } from "react";
+import { auth } from "../utils/firebase";
 import Header from "./Header";
 import { validateData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const Login = () => {
-  const [isSignIn, setIsSignIn] = useState(true);
+  const [isSignIn, setIsSignIn] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -21,6 +26,35 @@ const Login = () => {
     const passwordValue = password.current.value;
     const message = validateData(emailValue, passwordValue);
     setErrorMessage(message);
+    if (message) return;
+
+    if (!setIsSignIn) {
+      console.log("Working fine");
+      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorMessage);
+        });
+    } else {
+      console.log("Going here");
+      signInWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorMessage);
+        });
+    }
   };
   return (
     <div className="w-screen min-h-screen bg-[url('https://assets.nflxext.com/ffe/siteui/vlv3/9db4a880-3034-4e98-bdea-5d983e86bf52/b5953637-091d-4e02-9754-2bfadc8a8f7c/IN-en-20230925-popsignuptwoweeks-perspective_alpha_website_medium.jpg')]">
