@@ -5,13 +5,20 @@ import { validateData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
@@ -28,13 +35,26 @@ const Login = () => {
     setErrorMessage(message);
     if (message) return;
 
-    if (!setIsSignIn) {
+    if (!isSignIn) {
       console.log("Working fine");
       createUserWithEmailAndPassword(auth, emailValue, passwordValue)
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value,
+          })
+            .then(() => {
+              const { uid, email, displayName } = auth.currentUser;
+              dispatch(
+                addUser({ uid: uid, email: email, displayName: displayName })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -47,6 +67,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          navigate("/browse");
           console.log(user);
         })
         .catch((error) => {
@@ -71,6 +92,7 @@ const Login = () => {
           </h2>
           {!isSignIn && (
             <input
+              ref={name}
               className="w-full mb-4 bg-stone-700 text-stone-500 p-3 rounded-sm"
               type="text"
               placeholder="Enter Name"
