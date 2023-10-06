@@ -10,7 +10,4 @@ export const API_OPTIONS = {
   },
 };
 
-// fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
-//   .then(response => response.json())
-//   .then(response => console.log(response))
-//   .catch(err => console.error(err));
+export const MOVIE_IMG = "https://image.tmdb.org/t/p/w780/";

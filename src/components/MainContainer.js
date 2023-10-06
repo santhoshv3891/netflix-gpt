@@ -11,7 +11,7 @@ const MainContainer = () => {
   //console.log(mainMovie);
   const { original_title, overview, id } = mainMovie;
   return (
-    <div>
+    <div className="w-screen relative -mt-[74px]">
       <VideoBackground movieid={id} title={original_title} />
       <VideoTitle title={original_title} overview={overview} />
     </div>

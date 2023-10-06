@@ -37,12 +37,12 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="w-screen bg-gradient-to-br from-black flex justify-between">
+    <div className="w-screen bg-gradient-to-br from-black flex justify-between z-10 relative">
       <div className="">
         <img className="w-44 " src={LOGO} alt="logo" />
       </div>
       {user && (
-        <div className="mr-5 mt-5 font-bold">
+        <div className="mr-8 mt-5 font-bold text-white">
           <button className="hover:underline" onClick={handleSignOut}>
             Sign Out
           </button>
