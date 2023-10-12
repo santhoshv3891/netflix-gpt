@@ -17,12 +17,12 @@ const Browse = () => {
   useTopRatedMovies();
   useUpcomingMovies();
   return (
-    <div
-      className={
-        "flex flex-wrap " +
-        (gpt ? "w-screen min-h-screen bg-[url('" + BG_URL + "')]" : "")
-      }
-    >
+    <div className="flex flex-wrap">
+      {gpt && (
+        <div className="absolute">
+          <img src={BG_URL} alt="background" />
+        </div>
+      )}
       <Header />
       {gpt ? (
         <GPTSearch />

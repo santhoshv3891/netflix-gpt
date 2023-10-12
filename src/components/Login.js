@@ -78,7 +78,11 @@ const Login = () => {
     }
   };
   return (
-    <div className={"w-screen min-h-screen bg-[url('" + BG_URL + "')]"}>
+    <div>
+      <div className="absolute -z-10">
+        <img src={BG_URL} alt="background" />
+      </div>
+
       <Header />
       <div className="flex justify-center">
         <form
